@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目管理后台 - 反馈通</title>
+    <link href="https://cdn.douapp.cn/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.douapp.cn/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --sidebar-width: 280px;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        /* 顶部导航栏 */
+        .top-navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: 60px;
+            z-index: 1030;
+        }
+        
+        .project-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+        }
+        
+        /* 侧边栏 */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 60px;
+            bottom: 0;
+            left: 0;
+            z-index: 1020;
+            overflow-y: auto;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+        
+        .sidebar-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: #6c757d;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            color: #495057;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .menu-item:hover, .menu-item.active {
+            background-color: #e9ecef;
+            color: var(--primary-color);
+        }
+        
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            margin-top: 60px;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .dashboard-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .stats-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.2s;
+        }
+        
+        .stats-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+        }
+        
+        .stats-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .stats-value {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .stats-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .chart-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+            height: 300px;
+        }
+        
+        .recent-activity {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #e9f7fe;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .activity-content {
+            flex-grow: 1;
+        }
+        
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .activity-time {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 240px;
+            }
+            
+            .main-content {
+                margin-left: 240px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="navbar navbar-expand-lg top-navbar sticky-top">
+        <div class="container-fluid">
+            <!-- 项目Logo和名称 -->
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="https://via.placeholder.com/40" alt="项目Logo" class="project-logo">
+                <span class="fw-bold">产品反馈中心</span>
+            </a>
+            
+            <!-- 项目切换菜单 -->
+            <div class="dropdown me-auto ms-3">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-grid me-1"></i> 当前项目: 产品反馈中心
+                </button>
+                <ul class="dropdown-menu">
+                    <li><h6 class="dropdown-header">我的项目</h6></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-chat-square-text me-2"></i> 产品反馈中心</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-chat-square-text me-2"></i> 移动端APP反馈</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-chat-square-text me-2"></i> 网站用户体验反馈</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-plus-circle me-2"></i> 创建新项目</a></li>
+                </ul>
+            </div>
+            
+            <!-- 用户操作菜单 -->
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                    <img src="https://via.placeholder.com/36" alt="用户头像" class="user-avatar me-2">
+                    <span class="d-none d-md-inline">张经理</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i> 我的资料</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-text me-2"></i> 我的帖子</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-return-left me-2"></i> 返回用户视角</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i> 我的设置</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-key me-2"></i> 修改密码</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i> 登出</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 侧边栏 -->
+    <div class="sidebar">
+        <!-- 菜单项 -->
+        <div class="sidebar-section">
+            <h6 class="sidebar-title">内容管理</h6>
+            <a href="#" class="menu-item active">
+                <i class="bi bi-speedometer2"></i> 项目概览
+            </a>
+            <a href="#" class="menu-item">
+                <i class="bi bi-chat-dots"></i> 帖子管理
+            </a>
+            <a href="#" class="menu-item">
+                <i class="bi bi-chat-left-text"></i> 回复管理
+            </a>
+            <a href="#" class="menu-item">
+                <i class="bi bi-newspaper"></i> 博客管理
+            </a>
+        </div>
+        
+        <div class="sidebar-section">
+            <h6 class="sidebar-title">用户管理</h6>
+            <a href="#" class="menu-item">
+                <i class="bi bi-people"></i> 反馈用户列表
+            </a>
+            <a href="#" class="menu-item">
+                <i class="bi bi-person-plus"></i> 添加新用户
+            </a>
+            <a href="#" class="menu-item">
+                <i class="bi bi-person-x"></i> 封禁用户管理
+            </a>
+        </div>
+        
+        <div class="sidebar-section">
+            <h6 class="sidebar-title">数据管理</h6>
+            <a href="#" class="menu-item">
+                <i class="bi bi-clock-history"></i> 项目历史记录
+            </a>
+            <a href="#" class="menu-item">
+                <i class="bi bi-download"></i> 数据导出
+            </a>
+            <a href="#" class="menu-item">
+                <i class="bi bi-upload"></i> 数据导入
+            </a>
+            <a href="#" class="menu-item">
+                <i class="bi bi-trash"></i> 回收站管理
+            </a>
+        </div>
+        
+        <div class="sidebar-section">
+            <h6 class="sidebar-title">系统设置</h6>
+            <a href="#" class="menu-item">
+                <i class="bi bi-gear"></i> 项目设置
+            </a>
+            <a href="#" class="menu-item">
+                <i class="bi bi-tags"></i> 分类管理
+            </a>
+            <a href="#" class="menu-item">
+                <i class="bi bi-bell"></i> 通知设置
+            </a>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="main-content">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">项目概览</h1>
+            <div>
+                <button class="btn btn-outline-secondary me-2">
+                    <i class="bi bi-download me-1"></i> 导出数据
+                </button>
+                <button class="btn btn-primary">
+                    <i class="bi bi-plus-lg me-1"></i> 添加内容
+                </button>
+            </div>
+        </div>
+        
+        <!-- 数据统计卡片 -->
+        <div class="row">
+            <div class="col-md-6 col-lg-3">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="bi bi-chat-dots"></i>
+                    </div>
+                    <div class="stats-value">542</div>
+                    <div class="stats-label">总帖子数</div>
+                    <div class="mt-2">
+                        <span class="badge bg-success">+12 本周新增</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="bi bi-chat-left-text"></i>
+                    </div>
+                    <div class="stats-value">1,248</div>
+                    <div class="stats-label">总回复数</div>
+                    <div class="mt-2">
+                        <span class="badge bg-success">+24 今日新增</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <div class="stats-value">846</div>
+                    <div class="stats-label">反馈用户数</div>
+                    <div class="mt-2">
+                        <span class="badge bg-success">+8 本周新增</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="bi bi-trash"></i>
+                    </div>
+                    <div class="stats-value">36</div>
+                    <div class="stats-label">删帖数</div>
+                    <div class="mt-2">
+                        <span class="badge bg-danger">+2 本周新增</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 图表区域 -->
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="chart-container">
+                    <canvas id="feedbackChart"></canvas>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="chart-container">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 最近活动 -->
+        <div class="recent-activity">
+            <h5 class="mb-4">最近活动</h5>
+            
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="bi bi-chat-dots"></i>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">用户"李明"提交了新反馈</div>
+                    <p class="mb-1">希望增加深色模式选项，提升夜间使用体验</p>
+                    <div class="activity-time">10分钟前</div>
+                </div>
+            </div>
+            
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="bi bi-chat-left-text"></i>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">张经理回复了反馈</div>
+                    <p class="mb-1">"登录页面加载缓慢问题" - 已确认问题，正在优化中</p>
+                    <div class="activity-time">1小时前</div>
+                </div>
+            </div>
+            
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="bi bi-person-plus"></i>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">新用户"王芳"注册</div>
+                    <p class="mb-1">来自微信渠道注册</p>
+                    <div class="activity-time">3小时前</div>
+                </div>
+            </div>
+            
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">反馈标记为已解决</div>
+                    <p class="mb-1">"数据导出功能请求" - 已在新版本中实现</p>
+                    <div class="activity-time">昨天</div>
+                </div>
+            </div>
+            
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="bi bi-trash"></i>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">删除了违规帖子</div>
+                    <p class="mb-1">"广告内容" - 违反社区规定</p>
+                    <div class="activity-time">昨天</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.douapp.cn/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- 图表初始化 -->
+    <script>
+        // 反馈趋势图表
+        const feedbackCtx = document.getElementById('feedbackChart').getContext('2d');
+        const feedbackChart = new Chart(feedbackCtx, {
+            type: 'line',
+            data: {
+                labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月'],
+                datasets: [
+                    {
+                        label: '新反馈',
+                        data: [65, 59, 80, 81, 76, 85, 92],
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    },
+                    {
+                        label: '已解决',
+                        data: [28, 48, 40, 59, 66, 71, 85],
+                        borderColor: '#2ecc71',
+                        backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '反馈趋势分析 (2025年)'
+                    },
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: '数量'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // 分类分布图表
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        const categoryChart = new Chart(categoryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['功能建议', 'BUG反馈', '使用问题', '其他'],
+                datasets: [{
+                    data: [45, 30, 20, 5],
+                    backgroundColor: [
+                        '#3498db',
+                        '#e74c3c',
+                        '#f39c12',
+                        '#95a5a6'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '反馈分类分布'
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帖子管理 - 反馈通</title>
+    <link href="https://cdn.douapp.cn/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.douapp.cn/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            overflow-x: hidden;
+        }
+        
+        /* 顶部导航栏 */
+        .top-navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: 60px;
+            z-index: 1030;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+        
+        /* 侧边栏 - 修复样式 */
+        .sidebar {
+            width: 280px;
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 60px;
+            bottom: 0;
+            left: 0;
+            z-index: 1020;
+            overflow-y: auto;
+            padding: 20px;
+            display: block !important; /* 确保显示 */
+        }
+        
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+        
+        .sidebar-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: #6c757d;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            color: #495057;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .menu-item:hover, .menu-item.active {
+            background-color: #e9ecef;
+            color: var(--primary-color);
+        }
+        
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            margin-left: 280px;
+            padding: 20px;
+            margin-top: 60px;
+        }
+        
+        .management-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .filter-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .post-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        
+        .post-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .post-status {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-right: 10px;
+        }
+        
+        .status-new {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .status-in-progress {
+            background-color: #fff8e1;
+            color: #ff8f00;
+        }
+        
+        .status-resolved {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+        
+        .status-closed {
+            background-color: #f5f5f5;
+            color: #616161;
+        }
+        
+        .post-title {
+            font-weight: 600;
+            margin-bottom: 0;
+            flex-grow: 1;
+        }
+        
+        .post-meta {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .post-body {
+            padding: 15px;
+        }
+        
+        .post-content {
+            color: #495057;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .post-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .post-tag {
+            background-color: #e9ecef;
+            color: #495057;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        .post-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .batch-actions {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            padding: 15px;
+            margin-bottom: 20px;
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+        }
+        
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .empty-state-icon {
+            font-size: 3rem;
+            color: #e0e0e0;
+            margin-bottom: 15px;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 240px;
+            }
+            
+            .main-content {
+                margin-left: 240px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                top: 0;
+                margin-top: 60px;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                margin-top: 20px;
+            }
+            
+            .management-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .management-header .btn {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="navbar navbar-expand-lg top-navbar sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <span class="fw-bold" style="color: var(--primary-color);">反馈通</span>
+            </a>
+            
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                    <img src="https://via.placeholder.com/36" alt="用户头像" class="rounded-circle me-2" width="36" height="36">
+                    <span class="d-none d-md-inline">张经理</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i> 我的资料</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-text me-2"></i> 我的帖子</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-return-left me-2"></i> 返回用户视角</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i> 登出</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 侧边栏 - 修复后 -->
+    <div class="sidebar">
+        <div class="d-grid mb-4">
+            <button class="btn btn-primary">
+                <i class="bi bi-plus-lg me-2"></i> 发表新反馈
+            </button>
+        </div>
+        
+        <div class="sidebar-section">
+            <h6 class="sidebar-title">内容管理</h6>
+            <a href="#" class="menu-item">
+                <i class="bi bi-speedometer2 me-2"></i> 项目概览
+            </a>
+            <a href="#" class="menu-item active">
+                <i class="bi bi-chat-dots me-2"></i> 帖子管理
+            </a>
+            <a href="#" class="menu-item">
+                <i class="bi bi-chat-left-text me-2"></i> 回复管理
+            </a>
+            <a href="#" class="menu-item">
+                <i class="bi bi-newspaper me-2"></i> 博客管理
+            </a>
+            <a href="#" class="menu-item">
+                <i class="bi bi-journal-bookmark me-2"></i> 更新记录管理
+            </a>
+        </div>
+        
+        <div class="sidebar-section">
+            <h6 class="sidebar-title">用户管理</h6>
+            <a href="#" class="menu-item">
+                <i class="bi bi-people me-2"></i> 反馈用户列表
+            </a>
+            <a href="#" class="menu-item">
+                <i class="bi bi-person-plus me-2"></i> 添加新用户
+            </a>
+            <a href="#" class="menu-item">
+                <i class="bi bi-person-x me-2"></i> 封禁用户管理
+            </a>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="main-content">
+        <div class="management-header">
+            <h2 class="mb-0">帖子管理</h2>
+            <div>
+                <button class="btn btn-primary">
+                    <i class="bi bi-plus-lg me-1"></i> 新建帖子
+                </button>
+            </div>
+        </div>
+        
+        <!-- 筛选区域 -->
+        <div class="filter-section">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="搜索帖子标题、内容或用户...">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select">
+                        <option selected>所有状态</option>
+                        <option>新反馈</option>
+                        <option>处理中</option>
+                        <option>已解决</option>
+                        <option>已关闭</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select">
+                        <option selected>所有分类</option>
+                        <option>功能建议</option>
+                        <option>BUG反馈</option>
+                        <option>使用问题</option>
+                        <option>其他</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text">创建时间</span>
+                        <input type="date" class="form-control">
+                        <span class="input-group-text">至</span>
+                        <input type="date" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select">
+                        <option selected>所有优先级</option>
+                        <option>紧急</option>
+                        <option>高</option>
+                        <option>中</option>
+                        <option>低</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select">
+                        <option selected>所有标签</option>
+                        <option>移动端</option>
+                        <option>桌面端</option>
+                        <option>性能问题</option>
+                        <option>UI问题</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-secondary w-100">
+                        <i class="bi bi-filter me-1"></i> 筛选
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 批量操作 -->
+        <div class="batch-actions">
+            <div class="d-flex align-items-center">
+                <div class="form-check me-3">
+                    <input class="form-check-input" type="checkbox" id="selectAll">
+                    <label class="form-check-label" for="selectAll">全选</label>
+                </div>
+                
+                <select class="form-select me-2" style="width: auto;">
+                    <option selected>批量操作</option>
+                    <option>标记为已解决</option>
+                    <option>标记为处理中</option>
+                    <option>移动到分类</option>
+                    <option>添加标签</option>
+                    <option>删除</option>
+                </select>
+                
+                <button class="btn btn-outline-primary me-2">
+                    <i class="bi bi-check2-circle me-1"></i> 应用
+                </button>
+                
+                <div class="ms-auto">
+                    <span class="text-muted me-2">已选择 <strong>0</strong> 个帖子</span>
+                    <button class="btn btn-sm btn-outline-secondary">
+                        <i class="bi bi-x-lg"></i> 清除选择
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 帖子列表 -->
+        <div class="post-list">
+            <!-- 帖子1 -->
+            <div class="post-card">
+                <div class="post-header">
+                    <span class="post-status status-new">新反馈</span>
+                    <h5 class="post-title">希望增加深色模式选项</h5>
+                    <div class="post-meta">
+                        <i class="bi bi-person me-1"></i> 李明
+                        <i class="bi bi-clock ms-3 me-1"></i> 2小时前
+                    </div>
+                </div>
+                <div class="post-body">
+                    <p class="post-content">
+                        目前产品只有亮色模式，在夜间使用时非常刺眼。建议增加深色模式选项，提升夜间使用体验。
+                    </p>
+                    <div class="post-tags">
+                        <span class="post-tag">功能建议</span>
+                        <span class="post-tag">UI优化</span>
+                    </div>
+                    <div class="d-flex">
+                        <span class="badge bg-light text-dark me-2">
+                            <i class="bi bi-hand-thumbs-up me-1"></i> 42
+                        </span>
+                        <span class="badge bg-light text-dark me-2">
+                            <i class="bi bi-chat me-1"></i> 8
+                        </span>
+                        <span class="badge bg-light text-dark">
+                            <i class="bi bi-eye me-1"></i> 128
+                        </span>
+                    </div>
+                </div>
+                <div class="post-footer">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox">
+                    </div>
+                    <div class="post-actions">
+                        <button class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil"></i> 编辑
+                        </button>
+                        <button class="btn btn-sm btn-outline-success">
+                            <i class="bi bi-check2"></i> 解决
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i> 删除
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 帖子2 -->
+            <div class="post-card">
+                <div class="post-header">
+                    <span class="post-status status-in-progress">处理中</span>
+                    <h5 class="post-title">移动端登录页面加载缓慢问题</h5>
+                    <div class="post-meta">
+                        <i class="bi bi-person me-1"></i> 王芳
+                        <i class="bi bi-clock ms-3 me-1"></i> 昨天
+                    </div>
+                </div>
+                <div class="post-body">
+                    <p class="post-content">
+                        在移动设备上访问登录页面时，加载速度明显比桌面端慢很多，特别是在网络条件一般的情况下，有时需要等待10秒以上才能显示完整页面。
+                    </p>
+                    <div class="post-tags">
+                        <span class="post-tag">BUG反馈</span>
+                        <span class="post-tag">性能问题</span>
+                        <span class="post-tag">移动端</span>
+                    </div>
+                    <div class="d-flex">
+                        <span class="badge bg-light text-dark me-2">
+                            <i class="bi bi-hand-thumbs-up me-1"></i> 36
+                        </span>
+                        <span class="badge bg-light text-dark me-2">
+                            <i class="bi bi-chat me-1"></i> 3
+                        </span>
+                        <span class="badge bg-light text-dark">
+                            <i class="bi bi-eye me-1"></i> 96
+                        </span>
+                    </div>
+                </div>
+                <div class="post-footer">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox">
+                    </div>
+                    <div class="post-actions">
+                        <button class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil"></i> 编辑
+                        </button>
+                        <button class="btn btn-sm btn-outline-success">
+                            <i class="bi bi-check2"></i> 解决
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i> 删除
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 帖子3 -->
+            <div class="post-card">
+                <div class="post-header">
+                    <span class="post-status status-resolved">已解决</span>
+                    <h5 class="post-title">建议优化搜索功能</h5>
+                    <div class="post-meta">
+                        <i class="bi bi-person me-1"></i> 张伟
+                        <i class="bi bi-clock ms-3 me-1"></i> 3天前
+                    </div>
+                </div>
+                <div class="post-body">
+                    <p class="post-content">
+                        当前搜索功能只支持标题搜索，建议增加内容搜索和标签搜索功能，同时支持模糊搜索和高级筛选选项。
+                    </p>
+                    <div class="post-tags">
+                        <span class="post-tag">功能建议</span>
+                        <span class="post-tag">搜索优化</span>
+                    </div>
+                    <div class="d-flex">
+                        <span class="badge bg-light text-dark me-2">
+                            <i class="bi bi-hand-thumbs-up me-1"></i> 84
+                        </span>
+                        <span class="badge bg-light text-dark me-2">
+                            <i class="bi bi-chat me-1"></i> 12
+                        </span>
+                        <span class="badge bg-light text-dark">
+                            <i class="bi bi-eye me-1"></i> 245
+                        </span>
+                    </div>
+                </div>
+                <div class="post-footer">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox">
+                    </div>
+                    <div class="post-actions">
+                        <button class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil"></i> 编辑
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-arrow-counterclockwise"></i> 重新打开
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i> 删除
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 帖子4 -->
+            <div class="post-card">
+                <div class="post-header">
+                    <span class="post-status status-closed">已关闭</span>
+                    <h5 class="post-title">数据导出功能请求</h5>
+                    <div class="post-meta">
+                        <i class="bi bi-person me-1"></i> 赵敏
+                        <i class="bi bi-clock ms-3 me-1"></i> 1周前
+                    </div>
+                </div>
+                <div class="post-body">
+                    <p class="post-content">
+                        目前的数据导出功能只支持CSV格式，对于日常办公来说不太方便。建议增加Excel导出选项，这样可以直接在办公软件中使用，无需转换格式。
+                    </p>
+                    <div class="post-tags">
+                        <span class="post-tag">功能建议</span>
+                        <span class="post-tag">数据导出</span>
+                    </div>
+                    <div class="d-flex">
+                        <span class="badge bg-light text-dark me-2">
+                            <i class="bi bi-hand-thumbs-up me-1"></i> 65
+                        </span>
+                        <span class="badge bg-light text-dark me-2">
+                            <i class="bi bi-chat me-1"></i> 5
+                        </span>
+                        <span class="badge bg-light text-dark">
+                            <i class="bi bi-eye me-1"></i> 178
+                        </span>
+                    </div>
+                </div>
+                <div class="post-footer">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox">
+                    </div>
+                    <div class="post-actions">
+                        <button class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil"></i> 编辑
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-arrow-counterclockwise"></i> 重新打开
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i> 删除
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 分页 -->
+        <div class="pagination-container">
+            <div class="text-muted">显示 1-4 条，共 128 条帖子</div>
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">上一页</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">下一页</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="d-flex align-items-center">
+                <span class="me-2">每页显示</span>
+                <select class="form-select form-select-sm" style="width: auto;">
+                    <option>10</option>
+                    <option selected>20</option>
+                    <option>50</option>
+                    <option>100</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.douapp.cn/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- 自定义JS -->
+    <script>
+        // 全选/取消全选功能
+        document.getElementById('selectAll').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.post-footer .form-check-input');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+            
+            updateSelectedCount();
+        });
+        
+        // 更新已选择数量
+        function updateSelectedCount() {
+            const selectedCount = document.querySelectorAll('.post-footer .form-check-input:checked').length;
+            document.querySelector('.batch-actions strong').textContent = selectedCount;
+        }
+        
+        // 为每个帖子的复选框添加事件监听
+        document.querySelectorAll('.post-footer .form-check-input').forEach(checkbox => {
+            checkbox.addEventListener('change', updateSelectedCount);
+        });
+        
+        // 清除选择
+        document.querySelector('.batch-actions .btn-outline-secondary').addEventListener('click', function() {
+            document.querySelectorAll('.post-footer .form-check-input').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            document.getElementById('selectAll').checked = false;
+            updateSelectedCount();
+        });
+    </script>
+</body>
+</html>

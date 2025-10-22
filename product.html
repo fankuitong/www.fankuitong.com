@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品介绍 - 反馈通</title>
+    <link href="https://cdn.douapp.cn/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .feature-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--primary-color);
+        }
+        
+        .comparison-table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-table th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .check-icon {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+        
+        .code-block {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        
+        .testimonial-card {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 25px;
+            height: 100%;
+        }
+        
+        .cta-section {
+            background-color: #f8f9fa;
+            padding: 80px 0;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span style="color: var(--primary-color);">反馈通</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="product.html">产品介绍</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">关于我们</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex">
+                    <a href="login.html" class="btn btn-outline-primary me-2">登录</a>
+                    <a href="register.html" class="btn btn-primary">免费注册</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 产品介绍首屏 -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-4">专注解决用户反馈管理的核心问题</h1>
+                    <p class="lead mb-5">轻量级用户反馈平台，帮助产品团队高效收集、处理和分析用户反馈</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心功能 -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="fw-bold section-title">核心功能</h2>
+                    <p class="text-muted">专为产品团队设计的轻量级解决方案，解决用户反馈管理的核心痛点</p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-4">
+                        <div class="feature-icon">📝</div>
+                        <h4>多渠道反馈收集</h4>
+                        <p class="text-muted">支持网站、APP、小程序等多平台接入，统一管理所有用户反馈</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-4">
+                        <div class="feature-icon">📊</div>
+                        <h4>智能分类与标签</h4>
+                        <p class="text-muted">自动识别问题类型，帮助快速定位BUG、新需求和改进点</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-4">
+                        <div class="feature-icon">🔄</div>
+                        <h4>透明互动流程</h4>
+                        <p class="text-muted">用户可查看反馈处理状态，产品经理可直接回复，建立用户信任</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-4">
+                        <div class="feature-icon">📈</div>
+                        <h4>数据洞察分析</h4>
+                        <p class="text-muted">可视化反馈数据，识别高频问题和用户需求趋势</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-4">
+                        <div class="feature-icon">🔔</div>
+                        <h4>智能通知提醒</h4>
+                        <p class="text-muted">通过微信、邮件、企业微信等渠道自动通知用户反馈状态</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-4">
+                        <div class="feature-icon">🔒</div>
+                        <h4>数据安全可控</h4>
+                        <p class="text-muted">您的数据完全自主控制，保障商业隐私和安全</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 优势对比 -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="fw-bold section-title">为什么选择反馈通？</h2>
+                    <p class="text-muted">与其他解决方案相比，我们专注于轻量、高效和易用</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>功能特性</th>
+                                <th>反馈通</th>
+                                <th>传统解决方案</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>部署复杂度</td>
+                                <td class="check-icon">一行代码快速集成</td>
+                                <td>复杂系统集成</td>
+                            </tr>
+                            <tr>
+                                <td>学习成本</td>
+                                <td class="check-icon">5分钟上手</td>
+                                <td>需要专业培训</td>
+                            </tr>
+                            <tr>
+                                <td>成本</td>
+                                <td class="check-icon">基础功能永久免费</td>
+                                <td>高昂的许可费用</td>
+                            </tr>
+                            <tr>
+                                <td>用户互动</td>
+                                <td class="check-icon">透明反馈广场</td>
+                                <td>单向反馈收集</td>
+                            </tr>
+                            <tr>
+                                <td>数据所有权</td>
+                                <td class="check-icon">完全自主控制</td>
+                                <td>平台托管数据</td>
+                            </tr>
+                            <tr>
+                                <td>移动端支持</td>
+                                <td class="check-icon">全平台原生支持</td>
+                                <td>有限支持</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 集成演示 -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="fw-bold section-title">轻松集成</h2>
+                    <p class="text-muted">只需几步即可将反馈功能集成到您的产品中</p>
+                </div>
+            </div>
+            
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h3 class="mb-4">简单四步完成集成</h3>
+                    <ol class="list-group list-group-numbered">
+                        <li class="list-group-item border-0">注册反馈通账户</li>
+                        <li class="list-group-item border-0">创建您的产品项目</li>
+                        <li class="list-group-item border-0">获取集成代码片段</li>
+                        <li class="list-group-item border-0">嵌入到您的网站或应用</li>
+                    </ol>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="code-block">
+                        <pre><code>&lt;!-- 反馈通集成代码 --&gt;
+&lt;script src="https://cdn.fankuitong.com/widget.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    FeedbackWidget.init({
+        projectId: 'YOUR_PROJECT_ID',
+        position: 'bottom-right',
+        theme: 'light'
+    });
+&lt;/script&gt;</code></pre>
+                    </div>
+                    <p class="text-muted mt-3">将这段代码添加到您的网站中，即可显示反馈入口</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 用户评价 -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="fw-bold section-title">用户评价</h2>
+                    <p class="text-muted">听听使用反馈通的团队怎么说</p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <p class="fst-italic">"反馈通帮助我们收集了数百条有价值的用户建议，产品迭代方向更加明确。"</p>
+                        <div class="d-flex align-items-center mt-4">
+                            <div class="flex-shrink-0">
+                                <img src="https://via.placeholder.com/50" alt="用户头像" class="rounded-circle">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-0">张经理</h6>
+                                <small class="text-muted">某科技公司产品负责人</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <p class="fst-italic">"集成非常简单，我们的开发团队半小时就完成了接入，用户体验很好。"</p>
+                        <div class="d-flex align-items-center mt-4">
+                            <div class="flex-shrink-0">
+                                <img src="https://via.placeholder.com/50" alt="用户头像" class="rounded-circle">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-0">李工程师</h6>
+                                <small class="text-muted">前端开发工程师</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <p class="fst-italic">"通过反馈通，我们能够及时响应用户问题，用户满意度显著提升。"</p>
+                        <div class="d-flex align-items-center mt-4">
+                            <div class="flex-shrink-0">
+                                <img src="https://via.placeholder.com/50" alt="用户头像" class="rounded-circle">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-0">王总监</h6>
+                                <small class="text-muted">客户成功团队负责人</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 行动号召区域 -->
+    <section class="cta-section text-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="fw-bold mb-3">立即开始改善您的产品</h2>
+                    <p class="lead text-muted mb-4">加入数百个信任我们的团队，让用户反馈驱动产品成长</p>
+                    <a href="register.html" class="btn btn-primary btn-lg px-5 py-3">免费注册，立即体验</a>
+                    <p class="small text-muted mt-3">无需信用卡，立即开始使用所有基础功能</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2025 反馈通. 保留所有权利.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="legal.html" class="text-light text-decoration-none me-3">法律声明</a>
+                    <a href="privacy.html" class="text-light text-decoration-none me-3">隐私政策</a>
+                    <a href="terms.html" class="text-light text-decoration-none">服务条款</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.douapp.cn/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

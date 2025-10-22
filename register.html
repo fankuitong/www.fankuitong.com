@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - 反馈通</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.douapp.cn/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .auth-container {
+            max-width: 500px;
+            width: 100%;
+            margin: auto;
+            padding: 2rem;
+        }
+        
+        .auth-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            padding: 2rem;
+        }
+        
+        .auth-title {
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .form-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+        
+        .form-group-icon {
+            position: relative;
+        }
+        
+        .form-control-icon {
+            padding-left: 45px;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6c757d;
+        }
+        
+        .divider {
+            position: relative;
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+        
+        .divider::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #e9ecef;
+            z-index: 1;
+        }
+        
+        .divider-text {
+            position: relative;
+            display: inline-block;
+            padding: 0 1rem;
+            background-color: white;
+            z-index: 2;
+            color: #6c757d;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+        }
+        
+        .social-icon {
+            margin-right: 0.5rem;
+        }
+        
+        .btn-wechat {
+            background-color: #07C160;
+            color: white;
+        }
+        
+        .btn-wechat:hover {
+            background-color: #06ad56;
+            color: white;
+        }
+        
+        .btn-github {
+            background-color: #333;
+            color: white;
+        }
+        
+        .btn-github:hover {
+            background-color: #222;
+            color: white;
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span style="color: var(--primary-color);">反馈通</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- 注册表单 -->
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2 class="auth-title">创建新账户</h2>
+            
+            <form id="registerForm">
+                <!-- 用户名 -->
+                <div class="mb-3 form-group-icon">
+                    <i class="fas fa-user form-icon"></i>
+                    <input type="text" class="form-control form-control-icon" id="username" placeholder="用户名" required>
+                </div>
+                
+                <!-- 邮箱 -->
+                <div class="mb-3 form-group-icon">
+                    <i class="fas fa-envelope form-icon"></i>
+                    <input type="email" class="form-control form-control-icon" id="email" placeholder="邮箱地址" required>
+                </div>
+                
+                <!-- 密码 -->
+                <div class="mb-3 form-group-icon">
+                    <i class="fas fa-lock form-icon"></i>
+                    <input type="password" class="form-control form-control-icon" id="password" placeholder="密码" required>
+                    <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                </div>
+                
+                <!-- 确认密码 -->
+                <div class="mb-4 form-group-icon">
+                    <i class="fas fa-lock form-icon"></i>
+                    <input type="password" class="form-control form-control-icon" id="confirmPassword" placeholder="确认密码" required>
+                </div>
+                
+                <!-- 条款同意 -->
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                    <label class="form-check-label small" for="agreeTerms">
+                        我已阅读并同意 <a href="terms.html">服务条款</a> 和 <a href="privacy.html">隐私政策</a>
+                    </label>
+                </div>
+                
+                <!-- 注册按钮 -->
+                <button type="submit" class="btn btn-primary w-100 py-2 mb-3">注册</button>
+            </form>
+            
+            <!-- 第三方登录 -->
+            <div class="divider">
+                <span class="divider-text">或使用以下方式注册</span>
+            </div>
+            
+            <div class="row g-2">
+                <div class="col-6">
+                    <a href="#" class="btn btn-wechat social-btn">
+                        <i class="fab fa-weixin social-icon"></i> 微信
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a href="#" class="btn btn-github social-btn">
+                        <i class="fab fa-github social-icon"></i> GitHub
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 登录引导 -->
+            <div class="login-link mt-4">
+                <p class="mb-0">已有账户？<a href="login.html">立即登录</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.douapp.cn/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- 自定义交互脚本 -->
+    <script>
+        // 密码可见性切换
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+        
+        // 表单提交处理
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 获取表单值
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            // 简单验证
+            if (password !== confirmPassword) {
+                alert('两次输入的密码不一致，请重新输入');
+                return;
+            }
+            
+            // 这里应该发送注册请求到后端
+            console.log('注册信息:', { username, email, password });
+            
+            // 模拟注册成功
+            alert('注册成功！');
+            window.location.href = 'dashboard.html'; // 跳转到用户仪表盘
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我们 - 反馈通</title>
+    <link href="https://cdn.douapp.cn/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.douapp.cn/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* 顶部导航栏 */
+        .top-navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: 60px;
+            z-index: 1030;
+        }
+        
+        /* 关于我们头部 */
+        .about-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://via.placeholder.com/1920x600') no-repeat center center;
+            background-size: cover;
+            opacity: 0.1;
+        }
+        
+        .about-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .about-subtitle {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+        
+        /* 主要内容区 */
+        .about-section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+        
+        .mission-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 30px;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .mission-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .mission-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .team-member {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .member-photo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .member-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .member-position {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .member-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #e9ecef;
+            left: 50%;
+            margin-left: -2px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            padding-right: calc(50% + 30px);
+            text-align: right;
+        }
+        
+        .timeline-item:nth-child(even) {
+            padding-left: calc(50% + 30px);
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            top: 15px;
+            left: 50%;
+            margin-left: -10px;
+            z-index: 1;
+        }
+        
+        .timeline-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .value-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .value-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .value-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .contact-item {
+            flex: 1;
+            min-width: 250px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .contact-text {
+            flex-grow: 1;
+        }
+        
+        .contact-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .footer-links a {
+            display: block;
+            color: #adb5bd;
+            margin-bottom: 10px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-link:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #adb5bd;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                padding-left: 70px;
+                padding-right: 15px;
+                text-align: left;
+            }
+            
+            .timeline-dot {
+                left: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white top-navbar sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span style="color: var(--primary-color); font-weight: bold;">反馈通</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="product.html">产品介绍</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html">关于我们</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex">
+                    <a href="login.html" class="btn btn-outline-primary me-2">登录</a>
+                    <a href="register.html" class="btn btn-primary">免费注册</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页头 -->
+    <header class="about-header">
+        <div class="container">
+            <h1 class="about-title">关于反馈通</h1>
+            <p class="about-subtitle">我们致力于构建用户与产品之间的沟通桥梁，让每一条反馈都能被听见、被重视、被回应</p>
+            <a href="#contact" class="btn btn-light btn-lg px-4 py-2">联系我们</a>
+        </div>
+    </header>
+
+    <!-- 使命与愿景 -->
+    <section class="about-section">
+        <div class="container">
+            <h2 class="section-title">我们的使命与愿景</h2>
+            
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="mission-card">
+                        <div class="mission-icon">
+                            <i class="bi bi-chat-dots"></i>
+                        </div>
+                        <h3>连接用户与产品</h3>
+                        <p>我们相信，用户的反馈是产品进步的核心动力。反馈通致力于打造一个高效、透明的反馈收集与管理平台，让用户的声音能够直接传达给产品团队。</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="mission-card">
+                        <div class="mission-icon">
+                            <i class="bi bi-lightbulb"></i>
+                        </div>
+                        <h3>驱动产品创新</h3>
+                        <p>通过系统化的反馈管理，帮助产品团队发现用户痛点，识别创新机会，将用户需求转化为产品功能，持续提升用户体验。</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="mission-card">
+                        <div class="mission-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h3>构建信任社区</h3>
+                        <p>建立用户与产品团队之间的信任关系，让用户感受到他们的意见被重视，从而形成积极的反馈文化，共同推动产品发展。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 团队介绍 -->
+    <section class="about-section bg-light">
+        <div class="container">
+            <h2 class="section-title">核心团队</h2>
+            
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/200" alt="张明" class="member-photo">
+                        <h4 class="member-name">张明</h4>
+                        <p class="member-position">创始人 & CEO</p>
+                        <p>前腾讯产品总监，拥有10年用户研究经验</p>
+                        <div class="member-social">
+                            <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
+                            <a href="#" class="social-icon"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="social-icon"><i class="bi bi-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/200" alt="李华" class="member-photo">
+                        <h4 class="member-name">李华</h4>
+                        <p class="member-position">技术总监</p>
+                        <p>全栈工程师，专注于高并发系统架构</p>
+                        <div class="member-social">
+                            <a href="#" class="social-icon"><i class="bi bi-github"></i></a>
+                            <a href="#" class="social-icon"><i class="bi bi-stack-overflow"></i></a>
+                            <a href="#" class="social-icon"><i class="bi bi-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/200" alt="王芳" class="member-photo">
+                        <h4 class="member-name">王芳</h4>
+                        <p class="member-position">产品总监</p>
+                        <p>用户体验专家，曾主导多个千万级用户产品</p>
+                        <div class="member-social">
+                            <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
+                            <a href="#" class="social-icon"><i class="bi bi-medium"></i></a>
+                            <a href="#" class="social-icon"><i class="bi bi-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/200" alt="陈伟" class="member-photo">
+                        <h4 class="member-name">陈伟</h4>
+                        <p class="member-position">运营总监</p>
+                        <p>社区运营专家，擅长用户增长与活跃度提升</p>
+                        <div class="member-social">
+                            <a href="#" class="social-icon"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="social-icon"><i class="bi bi-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 发展历程 -->
+    <section class="about-section">
+        <div class="container">
+            <h2 class="section-title">发展历程</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2023年3月</div>
+                        <h4>项目启动</h4>
+                        <p>创始团队组建，产品概念验证，获得天使轮投资</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2023年9月</div>
+                        <h4>产品上线</h4>
+                        <p>反馈通1.0版本正式发布，首批50家企业用户入驻</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2024年4月</div>
+                        <h4>用户突破</h4>
+                        <p>平台用户突破10万，服务超过500家企业</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2024年11月</div>
+                        <h4>A轮融资</h4>
+                        <p>完成2000万美元A轮融资，加速产品研发与市场拓展</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2025年6月</div>
+                        <h4>国际化布局</h4>
+                        <p>推出多语言版本，服务拓展至东南亚市场</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心价值观 -->
+    <section class="about-section bg-light">
+        <div class="container">
+            <h2 class="section-title">核心价值观</h2>
+            
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="bi bi-person-heart"></i>
+                    </div>
+                    <h3 class="value-title">用户第一</h3>
+                    <p>我们始终将用户需求放在首位，致力于解决用户实际问题，提升产品体验。</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h3 class="value-title">诚信透明</h3>
+                    <p>我们坚持开放透明的沟通方式，建立与用户和合作伙伴的信任关系。</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="bi bi-lightning-charge"></i>
+                    </div>
+                    <h3 class="value-title">持续创新</h3>
+                    <p>我们鼓励创新思维，不断探索新技术和方法，推动产品持续进步。</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <h3 class="value-title">协作共赢</h3>
+                    <p>我们相信团队协作的力量，与用户、合作伙伴共同成长，实现共赢。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="about-section">
+        <div class="container">
+            <h2 class="section-title">联系我们</h2>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow">
+                        <div class="card-body p-5">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4 class="mb-4">发送消息</h4>
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">姓名</label>
+                                            <input type="text" class="form-control" id="name" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">邮箱</label>
+                                            <input type="email" class="form-control" id="email" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="message" class="form-label">消息</label>
+                                            <textarea class="form-control" id="message" rows="4" required></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">发送消息</button>
+                                    </form>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4 class="mb-4">联系信息</h4>
+                                    <div class="contact-info">
+                                        <div class="contact-item">
+                                            <div class="contact-icon">
+                                                <i class="bi bi-geo-alt"></i>
+                                            </div>
+                                            <div class="contact-text">
+                                                <h5 class="contact-title">地址</h5>
+                                                <p>上海市奉贤区张翁庙路666号</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="contact-item">
+                                            <div class="contact-icon">
+                                                <i class="bi bi-telephone"></i>
+                                            </div>
+                                            <div class="contact-text">
+                                                <h5 class="contact-title">电话</h5>
+                                                <p>+86 021-67130666</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="contact-item">
+                                            <div class="contact-icon">
+                                                <i class="bi bi-envelope"></i>
+                                            </div>
+                                            <div class="contact-text">
+                                                <h5 class="contact-title">邮箱</h5>
+                                                <p>contact@fankuitong.com</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="contact-item">
+                                            <div class="contact-icon">
+                                                <i class="bi bi-clock"></i>
+                                            </div>
+                                            <div class="contact-text">
+                                                <h5 class="contact-title">工作时间</h5>
+                                                <p>周一至周五: 9:00 - 18:00</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="footer-title">关于反馈通</h5>
+                    <p>反馈通是一个轻量级用户反馈平台，帮助产品团队高效收集、管理用户反馈，驱动产品持续优化。</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">快速链接</h5>
+                    <div class="footer-links">
+                        <a href="index.html">首页</a>
+                        <a href="product.html">产品介绍</a>
+                        <a href="about.html">关于我们</a>
+                        <a href="login.html">登录</a>
+                        <a href="register.html">注册</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">资源</h5>
+                    <div class="footer-links">
+                        <a href="#">帮助中心</a>
+                        <a href="#">博客</a>
+                        <a href="#">文档</a>
+                        <a href="#">API</a>
+                        <a href="#">状态</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-4">
+                    <h5 class="footer-title">订阅更新</h5>
+                    <p>订阅我们的新闻通讯，获取产品更新和行业洞察</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="您的邮箱地址">
+                        <button class="btn btn-primary" type="button">订阅</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 反馈通. 保留所有权利。</p>
+                <div class="d-flex justify-content-center mt-2">
+                    <a href="privacy.html" class="text-light text-decoration-none me-3">隐私政策</a>
+                    <a href="terms.html" class="text-light text-decoration-none me-3">服务条款</a>
+                    <a href="legal.html" class="text-light text-decoration-none">法律声明</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.douapp.cn/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
