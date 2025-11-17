@@ -12,30 +12,10 @@
     <title>产品介绍 - 反馈通</title>
     <link rel="icon" href="favicon.ico" />
     <link href="https://cdn.douapp.cn/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.douapp.cn/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/common.css">
     <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --accent-color: #e74c3c;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-        }
-        
-        .navbar-brand {
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-        
-        .hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 80px 0;
-            text-align: center;
-        }
-        
+
         .feature-card {
             border: none;
             border-radius: 10px;
@@ -123,11 +103,6 @@
         .cta-section {
             background-color: #f8f9fa;
             padding: 80px 0;
-        }
-        
-        footer {
-            background-color: var(--secondary-color);
-            color: white;
         }
     </style>
 </head>
@@ -409,16 +384,58 @@
     </section>
 
     <!-- 页脚 -->
-    <footer class="py-4">
+    <footer>
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <p class="mb-0">&copy; 2025 反馈通. 保留所有权利.</p>
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="footer-title">关于反馈通</h5>
+                    <p>反馈通是一个轻量级用户反馈平台，帮助产品团队高效收集、管理用户反馈，驱动产品持续优化。</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                    </div>
                 </div>
-                <div class="col-md-6 text-md-end">
-                    <a href="legal.html" class="text-light text-decoration-none me-3">法律声明</a>
+                
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">快速链接</h5>
+                    <div class="footer-links">
+                        <a href="index.html">首页</a>
+                        <a href="introduce.html">产品介绍</a>
+                        <a href="about.html">关于我们</a>
+                        <a href="login.html">登录</a>
+                        <a href="register.html">注册</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">资源</h5>
+                    <div class="footer-links">
+                        <a href="#">帮助中心</a>
+                        <a href="#">博客</a>
+                        <a href="#">文档</a>
+                        <a href="#">API</a>
+                        <a href="#">状态</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-4">
+                    <h5 class="footer-title">订阅更新</h5>
+                    <p>订阅我们的新闻通讯，获取产品更新和行业洞察</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="您的邮箱地址">
+                        <button class="btn btn-primary" type="button">订阅</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p class="mb-0">&copy; 2025 反馈通. 保留所有权利.<a href="http://beian.miit.gov.cn" class="text-light  me-3">沪ICP备20016252号-27</a></p>
+                <div class="d-flex justify-content-center mt-2">
                     <a href="privacy.html" class="text-light text-decoration-none me-3">隐私政策</a>
-                    <a href="terms.html" class="text-light text-decoration-none">服务条款</a>
+                    <a href="terms.html" class="text-light text-decoration-none me-3">服务条款</a>
+                    <a href="legal.html" class="text-light text-decoration-none">法律声明</a>
                 </div>
             </div>
         </div>
